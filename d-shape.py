@@ -1,5 +1,5 @@
 import customtkinter
-from button_builder import button
+from ImageButton import ImageButton
 from icon import icon_builder
 from tkinter import *
 from tkinter import ttk
@@ -16,14 +16,14 @@ class DShapeDrawerApp(customtkinter.CTk):
         super().__init__()
         self.title("D Shape Drawer")
         self.geometry('1000x600')
-        self.resizable(True, True)
+        self.resizable(False, False)
 
         # Create frame1
         frame1 = customtkinter.CTkFrame(master=self, height=200, fg_color="grey")
         frame1.pack(side="top",  fill="both", expand="True")
 
         # Create frame2
-        frame2 = customtkinter.CTkFrame(master=self, height=30, fg_color="black")
+        frame2 = customtkinter.CTkFrame(master=self, height=60, fg_color="black")
         frame2.pack(fill="both")
 
         # Create frame3
@@ -31,9 +31,25 @@ class DShapeDrawerApp(customtkinter.CTk):
         frame3.pack(side="bottom", fill="both")
 
         # Button to select Rectangle
-        button(frame3, command=lambda: self.set_shape("Rectangle"), image=icon_builder("black-square.png"))
-        button(frame3, command=lambda: self.set_shape("Circle"), icon=icon_builder("black-circle.png"))
-        button(frame3, command=lambda: self.set_shape("Triangle"), icon=icon_builder("bleach.png"))   
+        rectangle = ImageButton(frame3, "shapes/square.png", command=lambda: self.set_shape("Rectangle"), fg_color="orange")
+        rectangle.pack(side="left", pady=5)
+        rectangle.place(x=110, y=7)
+        circle = ImageButton(frame3, "shapes/rec.png", command=lambda: self.set_shape("Circle"), fg_color="orange")
+        circle.pack(side="left",pady=5)
+        circle.place(x=240, y=7)
+        triangle = ImageButton(frame3, "shapes/bleach (1).png", command=lambda: self.set_shape("Triangle"), fg_color="orange")   
+        triangle.pack(side="left",pady=5)
+        triangle.place(x=370, y=7)
+        hexagon = ImageButton(frame3, "shapes/polygon.png", command=lambda: self.set_shape("Hexagon"), fg_color="orange")   
+        hexagon.pack(side="left",pady=5)
+        hexagon.place(x=500, y=7)
+        octagon = ImageButton(frame3, "shapes/octagon.png", command=lambda: self.set_shape("Octagon"), fg_color="orange")   
+        octagon.pack(side="left",pady=5)
+        octagon.place(x=630, y=7)
+        heptagon = ImageButton(frame3, "shapes/heptagon.png", command=lambda: self.set_shape("Heptagon"), fg_color="orange")   
+        heptagon.pack(side="left",pady=5)
+        heptagon.place(x=760, y=7)
+        
         
         
 
@@ -49,11 +65,13 @@ class DShapeDrawerApp(customtkinter.CTk):
         # Button to open color picker
         self.color_picker_button = customtkinter.CTkButton(frame2, text="CHOOSE COLORS",command=self.open_color_picker)
         self.color_picker_button.pack(side="left")
+        self.color_picker_button.place(x=340, y=7)
 
         
         # Button to delete selected shape
         self.delete_button = customtkinter.CTkButton(frame2, text="Delete", command=self.delete_shape)
         self.delete_button.pack(side="right")
+        self.delete_button.place(x=540, y=7)
         # Bind canvas click event for drawing shapes
         self.canvas.bind("<Button-1>", self.start_draw)
         self.canvas.bind("<B1-Motion>", self.update_draw)
@@ -104,21 +122,78 @@ class DShapeDrawerApp(customtkinter.CTk):
             self.current_shape = self.canvas.create_oval(event.x, event.y, event.x, event.y, fill=self.color)
         elif shape == "Triangle":
             self.current_shape = self.canvas.create_polygon(event.x, event.y, event.x, event.y, event.x, event.y, fill=self.color)
+        elif shape == "Hexagon":
+            self.current_shape = self.canvas.create_polygon(*self.hexagon_vertices(event.x, event.y,event.x, event.y), fill=self.color)
+        elif shape == "Octagon":
+            self.current_shape = self.canvas.create_polygon(*self.octagon_vertices(event.x, event.y, event.x, event.y), fill=self.color)
+        elif shape == "Heptagon":
+            self.current_shape = self.canvas.create_polygon(*self.heptagon_vertices(event.x, event.y, event.x, event.y), fill=self.color)
 
+        
+    def hexagon_vertices(self, start_x, start_y, end_x, end_y):
+        # Calculate the size of the hexagon based on the distance between start and end points
+        size = math.sqrt((end_x - start_x)**2 + (end_y - start_y)**2)
+        
+        # Calculate the center point of the hexagon
+        center_x = (start_x + end_x) / 2
+        center_y = (start_y + end_y) / 2
+
+        vertices = []
+        for i in range(6):
+            angle_deg = 60 * i
+            angle_rad = math.radians(angle_deg)
+            vertex_x = center_x + size * math.cos(angle_rad)
+            vertex_y = center_y + size * math.sin(angle_rad)
+            vertices.extend([vertex_x, vertex_y])
+        return vertices
+    
+    def octagon_vertices(self, start_x, start_y, end_x, end_y):
+        # Calculate the size of the octagon based on the distance between start and end points
+        size = math.sqrt((end_x - start_x)**2 + (end_y - start_y)**2)
+        
+        # Calculate the center point of the octagon
+        center_x = (start_x + end_x) / 2
+        center_y = (start_y + end_y) / 2
+
+        vertices = []
+        for i in range(8):
+            angle_deg = 45 * i
+            angle_rad = math.radians(angle_deg)
+            vertex_x = center_x + size * math.cos(angle_rad)
+            vertex_y = center_y + size * math.sin(angle_rad)
+            vertices.extend([vertex_x, vertex_y])
+        return vertices
+    
+    def heptagon_vertices(self, start_x, start_y, end_x, end_y):
+        # Calculate the size of the heptagon based on the distance between start and end points
+        size = math.sqrt((end_x - start_x)**2 + (end_y - start_y)**2)
+        
+        # Calculate the center point of the heptagon
+        center_x = (start_x + end_x) / 2
+        center_y = (start_y + end_y) / 2
+
+        vertices = []
+        for i in range(7):
+            angle_deg = 360/7 * i  # Angle for each vertex
+            angle_rad = math.radians(angle_deg)
+            vertex_x = center_x + size * math.cos(angle_rad)
+            vertex_y = center_y + size * math.sin(angle_rad)
+            vertices.extend([vertex_x, vertex_y])
+        return vertices
+    
     def update_draw(self, event):
         if self.current_shape:
-            if self.selected_shape != "Triangle":
-                self.canvas.coords(self.current_shape, self.start_x, self.start_y, event.x, event.y)
-                self.canvas.coords(self.current_shape, 
-                               self.start_x, self.start_y, 
-                               event.x, self.start_y, 
-                               event.x, event.y, 
-                               self.start_x, event.y,
-                               self.start_x, self.start_y)  # Close the octagon
-            else:
+            if self.selected_shape == "Triangle":
                 self.canvas.coords(self.current_shape, self.start_x, event.y, (self.start_x + event.x) // 2, self.start_y, event.x, event.y)
-        
-        
+            elif self.selected_shape == "Hexagon":
+                self.canvas.coords(self.current_shape, *self.hexagon_vertices(self.start_x, self.start_y, event.x, event.y))
+            elif self.selected_shape == "Octagon":
+                self.canvas.coords(self.current_shape, *self.octagon_vertices(self.start_x, self.start_y, event.x, event.y))
+            elif self.selected_shape == "Heptagon":
+                self.canvas.coords(self.current_shape, *self.heptagon_vertices(self.start_x, self.start_y, event.x, event.y))
+            else:
+                self.canvas.coords(self.current_shape, self.start_x, self.start_y, event.x, event.y)
+
     def end_draw(self, event):
         self.current_shape = None
         

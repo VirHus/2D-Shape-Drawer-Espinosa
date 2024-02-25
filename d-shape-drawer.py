@@ -79,12 +79,15 @@ class ShapeDrawerApp:
 
         if shape == "Circle":
             self.canvas.delete("circle_preview")
-            self.canvas.create_oval(self.start_x - size, self.start_y - size, event.x + size, event.y + size,
-                                     outline=color, tags="circle_preview")
+            radius = abs(event.x - self.start_x)  # Calculate radius based on mouse movement
+            self.canvas.create_oval(self.start_x - radius, self.start_y - radius,
+                                     self.start_x + radius, self.start_y + radius,
+                                     fill=color, tags="circle_preview")
         elif shape == "Rectangle":
             self.canvas.delete("rectangle_preview")
-            self.canvas.create_rectangle(self.start_x, self.start_y, event.x, event.y,
-                                         outline=color, tags="rectangle_preview")
+            center = abs(event.x - self.start_x)
+            self.canvas.create_rectangle(self.start_x - center, self.start_y - center, event.x, event.y,
+                                         fill=color, tags="rectangle_preview")
         elif shape == "Line" :
             self.canvas.delete("line_preview")
             self.canvas.create_line(self.start_x, self.start_y, event.x, event.y,

@@ -1,6 +1,6 @@
 from customtkinter import CTkButton
 
-def button(parent, command, icon = None, fg_color="black", text=''):
+def button(parent, command, icon = None, fg_color="white", text=''):
     button = CTkButton(parent, fg_color=fg_color, text=text, command=command)
     
     if icon:

@@ -31,9 +31,11 @@ class DShapeDrawerApp(customtkinter.CTk):
         frame3.pack(side="bottom", fill="both")
 
         # Button to select Rectangle
-        button(frame3, command=lambda: self.set_shape("Rectangle"), icon=icon_builder("black-square.png"))
-        button(frame3, text="Circle", command=lambda: self.set_shape("Circle"))
-        button(frame3, text="Triangle", command=lambda: self.set_shape("Triangle"))        
+        button(frame3, command=lambda: self.set_shape("Rectangle"), image=icon_builder("black-square.png"))
+        button(frame3, command=lambda: self.set_shape("Circle"), icon=icon_builder("black-circle.png"))
+        button(frame3, command=lambda: self.set_shape("Triangle"), icon=icon_builder("bleach.png"))   
+        
+        
 
         # Canvas for drawing shapes
         self.canvas = customtkinter.CTkCanvas(frame1, bg="grey")
@@ -41,6 +43,8 @@ class DShapeDrawerApp(customtkinter.CTk):
 
         # Initialize color
         self.color = "black"
+        
+
 
         # Button to open color picker
         self.color_picker_button = customtkinter.CTkButton(frame2, text="CHOOSE COLORS",command=self.open_color_picker)

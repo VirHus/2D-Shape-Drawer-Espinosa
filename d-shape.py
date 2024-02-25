@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import customtkinter
 from ImageButton import ImageButton
 from icon import icon_builder
@@ -19,15 +20,15 @@ class DShapeDrawerApp(customtkinter.CTk):
         self.resizable(False, False)
 
         # Create frame1
-        frame1 = customtkinter.CTkFrame(master=self, height=200, fg_color="grey")
+        frame1 = customtkinter.CTkFrame(master=self, height=200, fg_color="white")
         frame1.pack(side="top",  fill="both", expand="True")
 
         # Create frame2
-        frame2 = customtkinter.CTkFrame(master=self, height=60, fg_color="black")
+        frame2 = customtkinter.CTkFrame(master=self, height=90, fg_color="orange")
         frame2.pack(fill="both")
 
         # Create frame3
-        frame3 = customtkinter.CTkFrame(master=self, height=100, fg_color="white")
+        frame3 = customtkinter.CTkFrame(master=self, height=100, fg_color="black")
         frame3.pack(side="bottom", fill="both")
 
         # Button to select Rectangle
@@ -63,15 +64,15 @@ class DShapeDrawerApp(customtkinter.CTk):
 
 
         # Button to open color picker
-        self.color_picker_button = customtkinter.CTkButton(frame2, text="CHOOSE COLORS",command=self.open_color_picker)
-        self.color_picker_button.pack(side="left")
-        self.color_picker_button.place(x=340, y=7)
+        color_picker_button = ImageButton(frame2, "shapes/color-picker.png",command=self.open_color_picker, fg_color="black")
+        color_picker_button.pack(side="left")
+        color_picker_button.place(x=380, y=7)
 
         
         # Button to delete selected shape
-        self.delete_button = customtkinter.CTkButton(frame2, text="Delete", command=self.delete_shape)
-        self.delete_button.pack(side="right")
-        self.delete_button.place(x=540, y=7)
+        delete_button = ImageButton(frame2, "shapes/trash.png", command=self.delete_shape, fg_color="black")
+        delete_button.pack(side="right")
+        delete_button.place(x=540, y=7)
         # Bind canvas click event for drawing shapes
         self.canvas.bind("<Button-1>", self.start_draw)
         self.canvas.bind("<B1-Motion>", self.update_draw)
@@ -110,6 +111,7 @@ class DShapeDrawerApp(customtkinter.CTk):
                 
     def set_shape(self, shape):
         self.selected_shape = shape
+        messagebox.showinfo("Shape Selected", f"You have selected {shape}")
 
 
     def start_draw(self, event):

@@ -1,9 +1,7 @@
 import json
-import pickle
 from tkinter import filedialog, messagebox
 import customtkinter
 from ImageButton import ImageButton
-import Save
 from icon import icon_builder
 from tkinter import *
 from tkinter import ttk
